@@ -1,0 +1,30 @@
+# Local services for development. Production uses Cloud SQL + Resend instead.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: good-deeds-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gooddeeds
+      POSTGRES_PASSWORD: gooddeeds
+      POSTGRES_DB: gooddeeds
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gooddeeds"]
+      interval: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: good-deeds-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025" # web inbox
+      - "1025:1025" # SMTP
+
+volumes:
+  pgdata:

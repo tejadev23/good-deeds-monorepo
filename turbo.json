@@ -1,0 +1,46 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "NODE_ENV"
+  ],
+  "tasks": {
+    "generate": {
+      "cache": false
+    },
+    "build": {
+      "dependsOn": [
+        "^build",
+        "^generate"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        "out/**"
+      ]
+    },
+    "typecheck": {
+      "dependsOn": [
+        "^generate"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^generate"
+      ],
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": [
+        "^generate"
+      ],
+      "cache": false,
+      "persistent": true
+    }
+  },
+  "globalPassThroughEnv": [
+    "PRISMA_*",
+    "DATABASE_URL",
+    "FIREBASE_*"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "good-deeds-monorepo",
+  "private": true,
+  "description": "Good Deeds — web, API and (later) mobile in one workspace",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:migrate": "pnpm --filter @repo/database migrate",
+    "db:generate": "pnpm --filter @repo/database generate",
+    "db:studio": "pnpm --filter @repo/database studio",
+    "emulators": "firebase emulators:start --only auth,storage --project demo-good-deeds --import=.firebase-data --export-on-exit"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "5.9.3"
+  },
+  "packageManager": "pnpm@10.15.1",
+  "engines": { "node": ">=20.9" }
+}
