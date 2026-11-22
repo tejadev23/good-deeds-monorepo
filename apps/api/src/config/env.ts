@@ -6,7 +6,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   CORS_ORIGINS: z
     .string()
-    .default("http://localhost:3000")
+    .default("http://localhost:3100")
     .transform((value) => value.split(",").map((origin) => origin.trim()).filter(Boolean)),
   FIREBASE_PROJECT_ID: z.string().default("demo-good-deeds"),
   FIREBASE_AUTH_EMULATOR_HOST: z.string().optional(),

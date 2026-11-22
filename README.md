@@ -18,7 +18,20 @@ Locally everything runs on your Mac: Postgres + Mailpit in Docker and the Fireba
 
 ## First-time setup
 
-You need **Node 22**, **pnpm 10** (`corepack enable`), **Docker Desktop**, and the **Firebase CLI** (`npm i -g firebase-tools`, needs Java 21: `brew install openjdk@21`).
+You need **Node 22**, **pnpm 10** (`corepack enable`), **Postgres 16**, and the **Firebase CLI** (`npm i -g firebase-tools`, needs Java 21: `brew install openjdk@21` — `pnpm emulators` finds Homebrew's Java on its own).
+
+Postgres either way:
+
+- **Docker:** `pnpm db:up` starts Postgres (and Mailpit, a local email inbox) from `docker-compose.yml`.
+- **Homebrew** (`brew install postgresql@16 && brew services start postgresql@16`), then create the user and databases once:
+
+  ```bash
+  psql postgres -c "CREATE ROLE gooddeeds LOGIN PASSWORD 'gooddeeds' CREATEDB"
+  createdb -O gooddeeds gooddeeds
+  createdb -O gooddeeds gooddeeds_test
+  ```
+
+The web app runs on port **3100** so it doesn't clash with other projects on 3000.
 
 ```bash
 pnpm install
@@ -27,7 +40,7 @@ pnpm install
 cp apps/api/.env.example apps/api/.env
 cp packages/database/.env.example packages/database/.env
 
-# 2. Start Postgres + Mailpit
+# 2. Start Postgres (skip if you use Homebrew Postgres)
 pnpm db:up
 
 # 3. Create the first migration from the schema (only the very first time; afterwards it just applies)
@@ -39,16 +52,16 @@ pnpm db:migrate --name init
 Three terminals:
 
 ```bash
-pnpm db:up          # Postgres (if not running)
+pnpm db:up          # Postgres, if you use Docker
 pnpm emulators      # Firebase Auth + Storage emulators, UI at http://localhost:4000
-pnpm dev            # API on :4100, web on :3000
+pnpm dev            # API on :4100, web on :3100
 ```
 
 Useful URLs:
 
 | What                    | URL                          |
 | ----------------------- | ---------------------------- |
-| Web app                 | http://localhost:3000        |
+| Web app                 | http://localhost:3100        |
 | API health              | http://localhost:4100/health |
 | Firebase emulator UI    | http://localhost:4000        |
 | Mailpit (local inbox)   | http://localhost:8025        |

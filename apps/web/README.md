@@ -8,5 +8,5 @@ services in `src/services/mock` with demo data. Phase 2 replaces those with an `
 Firebase Storage. The demo data and demo accounts are removed at that point.
 
 ```bash
-pnpm --filter @repo/web dev     # http://localhost:3000
+pnpm --filter @repo/web dev     # http://localhost:3100
 ```

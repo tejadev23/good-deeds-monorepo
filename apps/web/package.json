@@ -4,9 +4,9 @@
   "private": true,
   "description": "Good Deeds 2.0 \u2014 Small actions. A better world.",
   "scripts": {
-    "dev": "next dev --port 3000",
+    "dev": "next dev --port 3100",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3100",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
